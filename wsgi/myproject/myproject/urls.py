@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from shunchuang import view as shunchuang_views
+from shunchuang import views as shunchuang_views
 
-urlpatterns = [ 
+urlpatterns = [
     url(r'^$', shunchuang_views.index),
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', include(admin.site.urls)),
 ]

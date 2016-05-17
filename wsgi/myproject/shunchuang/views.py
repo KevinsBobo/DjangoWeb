@@ -7,4 +7,4 @@ from shunchuang.models import Person
 
 def index(request):
     name = Person.objects.get(name="KevinsBobo")
-    return render(request, 'index.html', {'name': name.name, 'age': name.age})
+    return render(request, 'shunchuang/index.html', {'name': name.name, 'age': name.age})

@@ -37,8 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
     'shunchuang',
 )
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -111,4 +114,36 @@ STATICFILES_DIRS = (
             os.path.join(BASE_DIR, "common_static"),
  )
 
+# user django-users2 by KevinsBobo
 
+USERS_REGISTRATION_OPEN = True
+ 
+USERS_VERIFY_EMAIL = True
+  
+USERS_AUTO_LOGIN_ON_ACTIVATION = True
+   
+USERS_EMAIL_CONFIRMATION_TIMEOUT_DAYS = 3
+    
+# Specifies minimum length for passwords:
+USERS_PASSWORD_MIN_LENGTH = 5
+
+# Specifies maximum length for passwords:
+USERS_PASSWORD_MAX_LENGTH = None
+
+# the complexity validator, checks the password strength
+USERS_CHECK_PASSWORD_COMPLEXITY = True
+ 
+USERS_SPAM_PROTECTION = False  # important!
+
+
+#  ---------------------------------------------------------
+#  Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'kevins_bobo@163.com'
+EMAIL_HOST_PASSWORD = '939510025s'
+DEFAULT_FROM_EMAIL = 'kevins_bobo@163.com'
+#  ---------------------------------------------------------

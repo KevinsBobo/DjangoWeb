@@ -21,6 +21,8 @@ from shunchuang import views as shunchuang_views
 urlpatterns = [
     url(r'^$', shunchuang_views.index),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', login),
-    url(r'logout/$', logout),
+    #url(r'^login/$', login),
+    #url(r'logout/$', logout),
+    url(r'^accounts/', include('users.urls')),
+
 ]

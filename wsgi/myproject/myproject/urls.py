@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^login/$', login),
     url(r'logout/$', logout),
+    url(r'sign/$', shunchuang_views.create_user),
 ]

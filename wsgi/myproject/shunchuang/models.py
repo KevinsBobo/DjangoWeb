@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     phone  = models.CharField(max_length=11,blank=False)
     email  = models.CharField(max_length=30,blank=False)
     select = models.BooleanField(blank=False)
-    age    = models.IntegerField(blank=True)
+    age    = models.IntegerField(null=True,blank=True)
     motto  = models.CharField(max_length=100,blank=True)
     find   = models.CharField(max_length=200,blank=True)
     hibby  = models.CharField(max_length=50,blank=True)
@@ -26,6 +26,6 @@ class UserProfile(models.Model):
     person_photo = models.CharField(max_length=30,blank=True)
     user_class   = models.IntegerField(default=1,blank=False)
 
-    def __unicode_(self):
+    def __unicode__(self):
         return self.username
 

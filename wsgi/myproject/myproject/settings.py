@@ -111,4 +111,4 @@ STATICFILES_DIRS = (
             os.path.join(BASE_DIR, "common_static"),
  )
 
-
+LOGIN_URL = '/login/?next=/'

@@ -1,0 +1,26 @@
+{% extends 'shunchuang/base.html' %}
+
+{% block title %}注册{% endblock%}
+
+{% block content %}
+
+{% if form.errors %}
+    <p class="error">Sorry, that's not a valid username or password</p>
+	  {% endif %}
+
+	    <form action="/sign/?verif=0" method="post">
+			{% csrf_token %}
+		    <label for="username">User name:</label>
+		    <input type="text" name="username" value="" id="username"><br>
+		    <label for="password">Password:</label>
+		    <input type="password" name="password" value="" id="password"><br>
+		    <label for="email">email:</label>
+		    <input type="emial" name="email" value="" id="email"><br>
+		    <label for="phone">phone:</label>
+		    <input type="text" name="phone" value="" id="phone"><br>
+			<input type="radio" name="select" value=1>创业<br>
+			<input type="radio" name="select" value=2>组队<br>
+			<input type="submit" value="Sign up" />
+		</form>
+
+{% endblock %}

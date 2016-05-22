@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     name   = models.CharField(max_length=10,blank=True)
     phone  = models.CharField(max_length=11,blank=False)
     email  = models.CharField(max_length=30,blank=False)
-    select = models.BooleanField(blank=False)
+    select = models.IntegerField(blank=False)
     age    = models.IntegerField(null=True,blank=True)
     motto  = models.CharField(max_length=100,blank=True)
     find   = models.CharField(max_length=200,blank=True)

@@ -1,0 +1,22 @@
+{% extends 'shunchuang/base.html' %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+
+	<div id="login_login">
+	{% if not user %}
+		<form method='post'>
+			<input type="hidden" value="login" name="form">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="登录">
+		</form>
+	{% else %}
+	<p>
+		已为<a href="/my/">{{ user }}</a>登录，<a href="/logout/">注销</a>
+	</p>
+	{% endif %}
+	</div>
+
+{% endblock %}

@@ -21,7 +21,11 @@ from shunchuang import views as shunchuang_views
 urlpatterns = [
     url(r'^$', shunchuang_views.index),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^login/$', login),
-    url(r'logout/$', logout),
+    url(r'^login/$', shunchuang_views.login),
+    url(r'logout/$', shunchuang_views.logout),
     url(r'sign/$', shunchuang_views.create_user),
+    url(r'search/$', shunchuang_views.search),
+    url(r'class/$', shunchuang_views.classpage),
+    url(r'auction/$', shunchuang_views.auction),
+    url(r'my/$', shunchuang_views.my),
 ]

@@ -1,46 +1,58 @@
 <div id="header" class="hidden-xs">
 	<img src="/static/img/placeholder.png" id="logo">
-	<div id="login">
-	
+	{% if not user %}
+	<div id="login" class="visible-md-block visible-lg-block">
+		<form method='post'>
+			<input type="hidden" value="login" name="form">
+			{% csrf_token %}
+			{{ form }}
+			<input type="submit" value="登录">
+			<a href="#" class="forget">忘记密码？</a>
+		</form>
 	</div>
+	{% else %}
+	<div id="headusername">
+		欢迎，<a href="/my/">{{ user }}</a>，<a href="/logout/">注销</a>
+	</div>
+	{% endif %}
 </div>
 
 <ul class="nav nav-tabs hidden-xs">
-	<li class="{{active_home}}"><a href="#">首页</a></li>
-	<li class="{{active_search}}"><a href="#">分类搜索</a></li>
-	<li class="{{active_class}}"><a href="#">名家小课堂</a></li>
-	<li class="{{active_auction}}"><a href="#">反向就业拍卖会</a></li>
-	<li class="{{active_my}}"><a href="#">个人主页</a></li>
+	<li class="{{active_index}}"><a href="/">首页</a></li>
+	<li class="{{active_search}}"><a href="/search/">分类搜索</a></li>
+	<li class="{{active_class}}"><a href="/class/">名家小课堂</a></li>
+	<li class="{{active_auction}}"><a href="/auction/">反向就业拍卖会</a></li>
+	<li class="{{active_my}}"><a href="/my/">个人主页</a></li>
 </ul>
 
 
 <ul class="nav nav-tabs navbar-fixed-bottom kenav visible-xs-block">
-	<li class="{{active_home}}">
-		<a href="#" class="kenava">
+	<li class="{{active_index}}">
+		<a href="/" class="kenava">
 			<span class="glyphicon glyphicon-home kegly"></span><br/>
 			<span class="kenavfont">首页</span>
 		</a>
 	</li>
 	<li class="{{active_class}}">
-		<a href="#" class="kenava">
+		<a href="/class/" class="kenava">
 			<span class="glyphicon glyphicon-bell kegly"></span><br/>
 			<span class="kenavfont">小课堂</span>
 		</a>
 	</li>
 	<li class="{{active_search}}">
-		<a href="#" class="kenava">
+		<a href="/search/" class="kenava">
 			<span class="glyphicon glyphicon-search kegly"></span><br/>
 			<span class="kenavfont">搜索</span>
 		</a>
 	</li>
 	<li class="{{active_auction}}">
-		<a href="#" class="kenava">
+		<a href="/auction/" class="kenava">
 			<span class="glyphicon glyphicon-saved kegly"></span><br/>
 			<span class="kenavfont">拍卖会</span>
 		</a>
 	</li>
 	<li class="{{active_my}}">
-		<a href="#" class="kenava">
+		<a href="/my/" class="kenava">
 			<span class="glyphicon glyphicon-user kegly"></span><br/>
 			<span class="kenavfont">我的</span>
 		</a>

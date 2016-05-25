@@ -10,7 +10,7 @@
 			<input type="hidden" value="login" name="form">
 			{% csrf_token %}
 			{{ form }}
-			<input type="submit" value="登录">
+			<input id="loginsubmit" type="submit" value="登录">
 		</form>
 	{% else %}
 	<p>

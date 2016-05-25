@@ -59,22 +59,40 @@
 	font-size:12px;
 }
 
-#id_phone, #id_password {
+#login>form>input, #login_login>form>input {
 	background-color: #fff;
-    border: 1px solid #e3e2e1;
 	border-radius: 5px;
+    border: 1px solid #e3e2e1;
+	font-family: "Microsoft Yahei";
+	vertical-align: middle;
+}
+
+#login>form>#id_phone, #login>form>#id_password {
 	color: #8d8d8d;
 	display: inline-block;
-	font-family: "Microsoft Yahei";
 	height: 22px;
 	line-height: 22px;
 	margin-right: 8px;
-	padding: 0 5px;
-	vertical-align: middle;
 	width: 130px;
+	height: 22px;
+	line-height: 22px;
 }
 
+#headsubmit {
+	padding: 0 15px;
+}
+
+#loginsubmit {
+	display: block;
+	padding: 0 15px;
+	margin-left:70px;
+}
+
+#id_phone {
+	padding: 0 5px;
+}
 #id_password {
+	padding: 0 5px;
 	background-image: url("/static/img/lock.png");
     background-position: 110px center;
 	background-repeat: no-repeat;
@@ -99,21 +117,33 @@
 #login_login>form>label {
 	display: block;
 	float :left;
+	margin: 4px 7px 4px 0px;
 }
 
-#login_login>form>input {
-	display: block;
-	margin: 20px auto;
+#login_login>form>#id_phone, #login_login>form>#id_password {
+	color: #8d8d8d;
+	display: inline-block;
+	height: 22px;
+	line-height: 22px;
+	margin-right: 8px;
+	width: 150px;
+	height: 27px;
+	line-height: 27px;
 }
 
 #login_login>form>#id_password{
-	margin-bottom: 40px;
+	margin-bottom: 30px;
+    background-position: 130px center;
+}
+
+#login_login>form>#id_phone{
+	margin-bottom: 10px;
 }
 
 #login_login>form>ul.errorlist{
 	position: absolute;
 	left: 20px;
-	top: 75px;
+	top: 70px;
 }
 
 #headusername {

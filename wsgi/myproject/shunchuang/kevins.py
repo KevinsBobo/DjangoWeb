@@ -12,20 +12,24 @@ class Index():
     def index(self, request):
         login = Login()
         if request.method == 'POST':
-            result = login.loginfun(request)
+            form = LoginForm(request.POST)
+            result = login.loginfun(request, form)
             if result:
                 return HttpResponseRedirect('/')
-        name = login.islogined(request)
+            return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': form, 'user': False})
         loginform = LoginForm()
+        name = login.islogined(request)
         return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': loginform, 'user': name})
 
 class Search():
     def search(self, request):
         login = Login()
         if request.method == 'POST':
-            result = login.loginfun(request)
+            form = LoginForm(request.POST)
+            result = login.loginfun(request, form)
             if result:
                 return HttpResponseRedirect('/search/')
+            return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': form, 'user': False})
         name = login.islogined(request)
         loginform = LoginForm()
         return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': loginform, 'user': name})
@@ -34,9 +38,11 @@ class ClassPage():
     def classpage(self, request):
         login = Login()
         if request.method == 'POST':
-            result = login.loginfun(request)
+            form = LoginForm(request.POST)
+            result = login.loginfun(request, form)
             if result:
                 return HttpResponseRedirect('/class/')
+            return render(request, 'shunchuang/class.html', {'active_class': 'active', 'form': form, 'user': False})
         name = login.islogined(request)
         loginform = LoginForm()
         return render(request, 'shunchuang/class.html', {'active_class': 'active', 'form': loginform, 'user': name})
@@ -45,9 +51,11 @@ class Auction():
     def auction(self, request):
         login = Login()
         if request.method == 'POST':
-            result = login.loginfun(request)
+            form = LoginForm(request.POST)
+            result = login.loginfun(request, form)
             if result:
                 return HttpResponseRedirect('/auction/')
+            return render(request, 'shunchuang/auction.html', {'active_auction': 'active', 'form': form, 'user': False})
         name = login.islogined(request)
         loginform = LoginForm()
         return render(request, 'shunchuang/auction.html', {'active_auction': 'active', 'form': loginform, 'user': name})
@@ -56,7 +64,9 @@ class My():
     def my(self, request):
         login = Login()
         if request.method == 'POST':
-            result = login.loginfun(request)
+            form = LoginForm(request.POST)
+            result = login.loginfun(request, form)
+            return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': form, 'user': False})
             if result:
                 return HttpResponseRedirect('/my/')
         name = login.islogined(request)
@@ -81,9 +91,7 @@ class Login():
         auth.logout(request)
         return HttpResponseRedirect('/login/')
 
-    def loginfun(self, request):
-        form = LoginForm(request.POST)
-
+    def loginfun(self, request, form):
         if form.is_valid():
             phone = form.cleaned_data['phone']
             password = form.cleaned_data['password']
@@ -102,9 +110,11 @@ class Login():
 
     def login(self, request):
         if request.method == 'POST':
-            result = self.loginfun(request)
+            form = LoginForm(request.POST)
+            result = self.loginfun(request, form)
             if result:
                 return HttpResponseRedirect('/my/')
+            return render(request, 'shunchuang/login.html', {'user': False , 'form': form})
 
         name = self.islogined(request)
         form = LoginForm()

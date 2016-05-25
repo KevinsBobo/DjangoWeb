@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from shunchuang.models import Person
 from shunchuang.models import UserProfile
 from shunchuang.forms  import LoginForm
+from shunchuang.forms  import SignForm
 
 class Index():
     def index(self, request):
@@ -66,9 +67,9 @@ class My():
         if request.method == 'POST':
             form = LoginForm(request.POST)
             result = login.loginfun(request, form)
-            return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': form, 'user': False})
             if result:
                 return HttpResponseRedirect('/my/')
+            return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': form, 'user': False})
         name = login.islogined(request)
         if not name:
             return HttpResponseRedirect('/login/')
@@ -84,6 +85,8 @@ class Login():
             username = user.username
             user = UserProfile.objects.get(username = username)
             name = user.name
+            if not name: 
+                name = username
         return name
 
 
@@ -154,60 +157,36 @@ class SignModel():
             isexist = True
             return isexist
 
-    def check_verif_post(self, request):
-            name = request.POST['username']
-            isexist = self.user_isexist(name)
-            if isexist:
-                return HttpResponse('return1: %s'%(isexist))
-            phone = request.POST['phone']
-            isexist = self.phone_isexist(phone)
-            if isexist:
-                return HttpResponse('return2: %s'%(isexist))
-            email = request.POST['email']
-            isexist = self.email_isexist(email)
-            if isexist:
-                return HttpResponse('return3: %s'%(isexist))
-            return False
-
-    def check_verif(self, request):
-        verif = request.GET['verif']
-        if verif == '0':
-            if not request.POST:
-                return render(request, 'registration/sign.html')
-            isexist = self.check_verif_post(request)
-            return isexist
-        else:
-            isexist = self.check_verif_get(request)
-            return HttpResponse('return: %s'%(isexist))
-
     def create_user(self, request):
+        signform = SignForm()
+        if request.method == 'GET':
+            try:    
+                verif = request.GET['verif']
+                isexist = self.check_verif_get(request)
+                return HttpResponse(isexist)
+            except KeyError:
+                return render(request, 'shunchuang/sign.html', {'signform': signform, 'hidden': 'visibility:hidden'})
 
-        try:
-            if not request.GET:
-                return render(request, 'registration/sign.html')
-            verif = request.GET['verif']
-        except KeyError:
-            return render(request, 'registration/sign.html')
+        if request.method == 'POST':
+            signform = SignForm(request.POST)
+            if signform.is_valid():
+                newuser = User.objects.create_user(
+                        username = signform.cleaned_data['username'],
+                        email    = signform.cleaned_data['email'],
+                        password = signform.cleaned_data['passwordt'],)
+                newuserprofile = UserProfile(
+                        username = signform.cleaned_data['username'],
+                        email    = signform.cleaned_data['email'],
+                        phone    = signform.cleaned_data['phone'],
+                        select   = signform.cleaned_data['select'],)
+                newuser.save()
+                newuserprofile.save()
 
-        isexist = self.check_verif(request)
-        if isexist:
-            return isexist
-
-        username = request.POST['username']
-        password = request.POST['password']
-        phone    = request.POST['phone']
-        email    = request.POST['email']
-        select   = request.POST['select']
-        newuser = User.objects.create_user(
-                username = username,
-                email    = email,
-                password = password)
-        newuserprofile = UserProfile(
-                username = username,
-                email    = email,
-                phone    = phone,
-                select   = select)
-        newuser.save()
-        newuserprofile.save()
-        return HttpResponse('return: OK')
+                username = signform.cleaned_data['username']
+                password = signform.cleaned_data['passwordt']
+                user = auth.authenticate(username=username, password=password)
+                if user is not None and user.is_active:
+                    auth.login(request, user)
+                return HttpResponseRedirect('/my/')
+            return render(request, 'shunchuang/sign.html', {'signform': signform, 'hidden': 'visibility:hidden'})
 

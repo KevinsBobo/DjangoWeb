@@ -1,7 +1,7 @@
 <div id="header" class="hidden-xs">
 	<img src="/static/img/placeholder.png" id="logo">
 	{% if not user %}
-	<div id="login" class="visible-md-block visible-lg-block">
+	<div id="login" class="visible-md-block visible-lg-block" style="{{hidden}}">
 		<form method='post'>
 			<input type="hidden" value="login" name="form">
 			{% csrf_token %}
@@ -11,7 +11,7 @@
 		</form>
 	</div>
 	{% else %}
-	<div id="headusername">
+	<div id="headusername" style="{{hidden}}">
 		欢迎，<a href="/my/">{{ user }}</a>，<a href="/logout/">注销</a>
 	</div>
 	{% endif %}

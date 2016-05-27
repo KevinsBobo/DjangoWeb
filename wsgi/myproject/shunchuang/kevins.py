@@ -118,7 +118,7 @@ class My():
                 userinfo = self.getuserinfo(user, False)
                 if not userinfo:
                     return HttpResponse('用户不存在')
-                return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo})
+                return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo, 'backpage':True})
             except KeyError:
                 pass
         if not name:

@@ -4,7 +4,11 @@
 
 {% block content %}
 
+{% if backpage %}
+<div id="editinfoa"><a href="javascript:history.back(-1)">返回</a></div>
+{% else %}
 <div id="editinfoa"><a href="/editinfo/">编辑</a></div>
+{% endif %}
 
 <ul>
 {% for key, value in userinfo.items %}

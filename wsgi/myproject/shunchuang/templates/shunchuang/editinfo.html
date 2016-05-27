@@ -4,12 +4,14 @@
 
 {% block content %}
 
-	<div id="editinfo">
-		<form method='post'>
-			<input type="hidden" value="login" name="form">
-			{% csrf_token %}
-			{{ editinfoform }}
-			<input id="editinfosubmit" type="submit" value="提交">
-		</form>
+<div id="editinfoa"><a href="javascript:history.back(-1)">返回</a></div>
+<div id="editinfo">
+	<form method='post'>
+		<input type="hidden" value="login" name="form">
+		{% csrf_token %}
+		{{ editinfoform }}
+		<input id="editinfosubmit" type="submit" value="提交">
+	</form>
+</div>
 
 {% endblock %}

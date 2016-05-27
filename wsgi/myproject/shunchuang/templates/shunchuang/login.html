@@ -11,6 +11,10 @@
 			{% csrf_token %}
 			{{ form }}
 			<input id="loginsubmit" type="submit" value="登录">
+			<div id="logintext">
+				<a href="#" class="forget">忘记密码？</a>
+				<a href="/sign/" class="forget">注册</a>
+			</div>
 		</form>
 	{% else %}
 	<p>

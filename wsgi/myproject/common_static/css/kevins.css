@@ -146,6 +146,10 @@
 	top: 70px;
 }
 
+#logintext {
+	margin:10px 0px 0px 50px;
+}
+
 #headusername {
 	float: right;
 	margin: 20px 20px 0px 0px;

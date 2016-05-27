@@ -1,9 +1,66 @@
 # -*- coding:utf-8 -*-
 from django import forms
+from django.forms import ModelForm
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from shunchuang.models import UserProfile
 import re
+
+class EditinfoForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+        exclude = ['user_class']
+        labels = {
+            'name'   : _(u'姓名'),
+            'sex'    : _(u'性别'),
+            'age'    : _(u'年龄'),
+            'phone'  : _(u'手机'),
+            'email'  : _(u'邮箱'),
+            'select' : _(u'角色'),
+            'find'   : _(u'寻找的队友'),
+            'motto'  : _(u'座右铭'),
+            'hibby'  : _(u'爱好/特长'),
+            'city'   : _(u'城市'),
+            'school' : _(u'学校'),
+            'school_class' : _(u'专业'),
+            'which_class'  : _(u'专业类别'),
+            'person_photo' : _(u'个人相册'),
+            'phone_show'   : _(u'手机号对其他用户可见'),
+            'email_show'   : _(u'邮箱对其他用户可见'),
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        return name
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if not re.search(r'^\w+$', username):
+            raise forms.ValidationError('用户名中只能包含字母、数字和下划线')
+        return username
+
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        username = self.cleaned_data['username']
+        vephone = UserProfile.objects.filter(phone=phone).exclude(username__iexact = username)
+        isexist = vephone.exists() 
+
+        if isexist:
+            raise forms.ValidationError('手机号已注册')
+        return phone
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        username = self.cleaned_data['username']
+        veemail = UserProfile.objects.filter(email__iexact=email).exclude(username__iexact = username)
+        isexist = veemail.exists() 
+
+        if isexist:
+            raise forms.ValidationError('邮箱已注册')
+        return email
+    
 
 class LoginForm(forms.Form):
     phone = forms.CharField(label='手机', max_length=11)

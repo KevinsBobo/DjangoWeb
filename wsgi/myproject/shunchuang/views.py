@@ -8,6 +8,8 @@ from shunchuang.kevins import Search
 from shunchuang.kevins import ClassPage
 from shunchuang.kevins import Auction
 from shunchuang.kevins import My
+from shunchuang.kevins import Editinfo
+from shunchuang.kevins import Message
 
 # Create your views here.
 
@@ -49,4 +51,14 @@ def auction(request):
 def my(request):
     my = My()
     result = my.my(request)
+    return result
+
+def editinfo(request):
+    editinfo = Editinfo()
+    result = editinfo.editinfo(request)
+    return result
+
+def message(request):
+    message = Message()
+    result = message.message(request)
     return result

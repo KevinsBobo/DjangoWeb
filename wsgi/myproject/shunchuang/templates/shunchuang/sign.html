@@ -5,6 +5,7 @@
 {% block content %}
 
 	    <form action="" method="post">
+			<input type="hidden" value="sign" name="form" />
 			{% csrf_token %}
 			{{ signform }}
 			<input id="singsubmit" type="submit" value="Sign up" />

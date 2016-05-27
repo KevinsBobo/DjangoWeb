@@ -1,0 +1,15 @@
+{% extends 'shunchuang/base.html' %}
+
+{% block title %}个人主页{% endblock %}
+
+{% block content %}
+
+	<div id="editinfo">
+		<form method='post'>
+			<input type="hidden" value="login" name="form">
+			{% csrf_token %}
+			{{ editinfoform }}
+			<input id="editinfosubmit" type="submit" value="提交">
+		</form>
+
+{% endblock %}

@@ -4,5 +4,12 @@
 
 {% block content %}
 
+<div id="editinfoa"><a href="/editinfo/">编辑</a></div>
+
+<ul>
+{% for key, value in userinfo.items %}
+	<li>{{ key }}: {{value}}</li>
+{% endfor %}
+</ul>
 
 {% endblock %}

@@ -4,14 +4,24 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from collections import OrderedDict
+#from django.core import serializers
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from shunchuang.models import Person
 from shunchuang.models import UserProfile
+from shunchuang.models import Message as Messagetab
+from shunchuang.models import News as Newstab
+from shunchuang.models import Crowdfund as Crowdfundtab
 from shunchuang.forms  import LoginForm
 from shunchuang.forms  import SignForm
 from shunchuang.forms  import EditinfoForm
+from shunchuang.forms  import MessageForm
+from shunchuang.forms  import ReplyForm
+from shunchuang.forms  import NewsForm
+from shunchuang.forms  import CrowdForm
+
 
 class Index():
     def index(self, request):
@@ -19,11 +29,10 @@ class Index():
         loginform = LoginForm()
         name = login.islogined(request)
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = login.loginfun(request, form)
+            loginform = LoginForm(request.POST)
+            result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/')
-            return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': form, 'user': False})
         return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': loginform, 'user': name})
 
 class Search():
@@ -32,11 +41,25 @@ class Search():
         loginform = LoginForm()
         name = login.islogined(request)
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = login.loginfun(request, form)
+            loginform = LoginForm(request.POST)
+            result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/search/')
-            return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': form, 'user': False})
+        if request.method == 'GET':
+            try:
+                seaclass = request.GET['class']
+                user = UserProfile.objects.filter(which_class = seaclass)
+                return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': loginform, 'user': name, 'userinfo': user, 'showuserinfo': True})
+            except KeyError:
+                pass
+
+            try:
+                seaname = request.GET['name']
+                user = UserProfile.objects.filter(name = seaname)
+                return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': loginform, 'user': name, 'userinfo': user, 'showuserinfo': True})
+            except KeyError:
+                pass
+
         return render(request, 'shunchuang/search.html', {'active_search': 'active', 'form': loginform, 'user': name})
 
 class ClassPage():
@@ -44,13 +67,25 @@ class ClassPage():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        username = request.user.username
+        messageform = MessageForm(initial={'username':username, 'name':name})
+        success = False
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = login.loginfun(request, form)
-            if result:
-                return HttpResponseRedirect('/class/')
-            return render(request, 'shunchuang/class.html', {'active_class': 'active', 'form': form, 'user': False})
-        return render(request, 'shunchuang/class.html', {'active_class': 'active', 'form': loginform, 'user': name})
+            formdo = request.POST['form']
+            if formdo == 'login':
+                loginform = LoginForm(request.POST)
+                result = login.loginfun(request, loginform)
+                if result:
+                    return HttpResponseRedirect('/class/')
+
+            if formdo == 'message':
+                messageform = MessageForm(request.POST)
+                success = -1
+                if messageform.is_valid():
+                    messageform.save()
+                    success = 1
+
+        return render(request, 'shunchuang/class.html', {'active_class': 'active','messform': messageform, 'form': loginform, 'user': name, 'success':success})
 
 class Auction():
     def auction(self, request):
@@ -58,11 +93,10 @@ class Auction():
         loginform = LoginForm()
         name = login.islogined(request)
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = login.loginfun(request, form)
+            loginform = LoginForm(request.POST)
+            result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/auction/')
-            return render(request, 'shunchuang/auction.html', {'active_auction': 'active', 'form': form, 'user': False})
         return render(request, 'shunchuang/auction.html', {'active_auction': 'active', 'form': loginform, 'user': name})
 
 class Editinfo():
@@ -91,15 +125,93 @@ class Editinfo():
 
         return render(request, 'shunchuang/editinfo.html', {'active_my': 'active', 'user': name, 'editinfoform': editinfoform})
 
-class Message():
-    def message(self, request):
+class Reply():
+    def reply(self, request):
         login = Login()
+        replyform = ReplyForm()
+        username = request.user.username
+        manageuser = login.manageuser()
         name = login.islogined(request)
+        if username not in manageuser:
+            return HttpResponseRedirect('/my/')
         if request.method == 'POST':
-            pass
-        if not name:
-            return HttpResponseRedirect('/login/')
-        return render(request, 'shunchuang/message.html', {'active_class': 'active', 'user': name})
+            replyform = ReplyForm(request.POST)
+            if replyform.is_valid():
+                id = replyform.cleaned_data['id']
+                replymess = replyform.cleaned_data['reply']
+                replyname = replyform.cleaned_data['replyname']
+                try:
+                    changemess = Messagetab.objects.get(id = id)
+                    changemess.reply = replymess
+                    changemess.replyname = replyname
+                    changemess.save()
+                except ObjectDoesNotExist:
+                    pass
+            
+        if request.method == 'GET':
+            try:    
+                delid = request.GET['delete']
+                try:
+                    Messagetab.objects.get(id = delid).delete()
+                except ObjectDoesNotExist:
+                    pass
+            except KeyError:
+                pass
+
+        message = Messagetab.objects.all() 
+        return render(request, 'shunchuang/reply.html', {'form':replyform,'message':message, 'user': name})
+
+class News():
+    def news(self, request):
+        login = Login()
+        newsform = NewsForm()
+        username = request.user.username
+        manageuser = login.manageuser()
+        name = login.islogined(request)
+        if username not in manageuser:
+            return HttpResponseRedirect('/my/')
+        if request.method == 'POST':
+            newsform = NewsForm(request.POST)
+            if newsform.is_valid():
+                newsform.save()
+
+        if request.method == 'GET':
+            try:    
+                delid = request.GET['delete']
+                try:
+                    Newstab.objects.get(id = delid).delete()
+                except ObjectDoesNotExist:
+                    pass
+            except KeyError:
+                pass
+        news_crowd = Newstab.objects.all() 
+        return render(request, 'shunchuang/news-crowd.html', {'form':newsform,'news_crowd':news_crowd,  'pagefun': 'news', 'user': name})
+
+class Crowd():
+    def crowd(self, request):
+        login = Login()
+        crowdform = CrowdForm()
+        username = request.user.username
+        manageuser = login.manageuser()
+        name = login.islogined(request)
+        if username not in manageuser:
+            return HttpResponseRedirect('/my/')
+        if request.method == 'POST':
+            crowdform = CrowdForm(request.POST)
+            if crowdform.is_valid():
+                crowdform.save()
+
+        if request.method == 'GET':
+            try:    
+                delid = request.GET['delete']
+                try:
+                    Crowdfundtab.objects.get(id = delid).delete()
+                except ObjectDoesNotExist:
+                    pass
+            except KeyError:
+                pass
+        news_crowd = Crowdfundtab.objects.all() 
+        return render(request, 'shunchuang/news-crowd.html', {'form':crowdform,'news_crowd':news_crowd,  'pagefun': 'crowd', 'user': name})
 
 class My():
     def my(self, request):
@@ -107,11 +219,10 @@ class My():
         loginform = LoginForm()
         name = login.islogined(request)
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = login.loginfun(request, form)
+            loginform = LoginForm(request.POST)
+            result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/my/')
-            return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': form, 'user': False})
         if request.method == 'GET':
             try:    
                 user = request.GET['user']
@@ -193,11 +304,15 @@ class My():
             if not email_show:
                 email = '保密'
 
-        items =(('姓名',name), ('性别',sex), ('年龄',age), ('手机号',phone), ('邮箱',email), ('角色',select), ('寻找的队友',find), ('座右铭',motto), ('爱好/特长',hibby), ('城市',city), ('学校',school), ('专业',school_class), ('专业类别',which_class), ('个人相册',person_photo))
+        items =(('姓名',name), ('性别',sex), ('年龄',age), ('手机号',phone), ('邮箱',email), ('角色',select), ('寻找的队友',find), ('座右铭',motto), ('特长/爱好',hibby), ('城市',city), ('学校',school), ('专业',school_class), ('专业类别',which_class), ('个人相册',person_photo))
         returnuserinfo = OrderedDict(items) 
         return returnuserinfo
 
 class Login():
+    def manageuser(self):
+        manageuser = ['kevins','KevinsBobo']
+        return manageuser
+
     def islogined(self, request):
         user = request.user
         name = False
@@ -233,15 +348,14 @@ class Login():
 
     def login(self, request):
         name = self.islogined(request)
+        loginform = LoginForm()
         if request.method == 'POST':
-            form = LoginForm(request.POST)
-            result = self.loginfun(request, form)
+            loginform = LoginForm(request.POST)
+            result = self.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/my/')
-            return render(request, 'shunchuang/login.html', {'user': False , 'form': form})
 
-        form = LoginForm()
-        return render(request, 'shunchuang/login.html', {'user': name , 'form': form})
+        return render(request, 'shunchuang/login.html', {'user': name , 'form': loginform})
 
 class SignModel():
     def user_isexist(self, name):
@@ -297,7 +411,6 @@ class SignModel():
                 result = login.loginfun(request, loginform)
                 if result:
                     return HttpResponseRedirect('/my/')
-                return render(request, 'shunchuang/sign.html', {'signform': signform, 'form': loginform, 'user': name})
             if formdo == 'sign':
                 signform = SignForm(request.POST)
                 if signform.is_valid():

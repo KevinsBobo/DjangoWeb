@@ -4,5 +4,21 @@
 
 {% block content %}
 
+<form method='post'>
+	<input type="hidden" value="message" name="form">
+	{% csrf_token %}
+	{{ messform }}
+	<input id="mesubmit" type="submit" value="提交">
+</form>
+
+{% if success %}
+
+	{% if success == 1 %}
+	留言成功
+	{% else %}
+	留言失败
+	{% endif %}
+
+{% endif %}
 
 {% endblock %}

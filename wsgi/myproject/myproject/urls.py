@@ -29,5 +29,7 @@ urlpatterns = [
     url(r'^auction/$', shunchuang_views.auction),
     url(r'^my/$', shunchuang_views.my),
     url(r'^editinfo/$', shunchuang_views.editinfo),
-    url(r'^message/$', shunchuang_views.message),
+    url(r'^reply/$', shunchuang_views.reply),
+    url(r'^news/$', shunchuang_views.news),
+    url(r'^crowd/$', shunchuang_views.crowd),
 ]

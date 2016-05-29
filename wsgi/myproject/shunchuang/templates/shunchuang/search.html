@@ -4,5 +4,43 @@
 
 {% block content %}
 
+<form method='get'>
+	<input type="text" name="name">
+	<input id="searchsubmit" type="submit" value="搜索">
+</form>
+
+{% if showuserinfo %}
+<div id="editinfoa"><a href="javascript:history.back(-1)">返回</a></div>
+<div class="container">
+	<div class="row">
+{% for value in userinfo %}
+<a href="/my/?user={{value.username}}" class="col-xs-4 col-sm-3 userinfoa">
+	姓  名：{{value.name}}<br/>
+	昵  称：{{value.username}}<br/>
+	角  色：{{value.select}}<br/>
+	专  业：{{value.school_class}}
+</a>
+{% endfor %}
+		<div class="clearfix"></div>
+	<div>
+</div>
+{% endif %}
+
+<div class="container">
+	<div class="row">
+		<a href="/search/?class=管理类" class="col-xs-6 col-sm-3 col-md-2 searcha">管理类</a>
+		<a href="/search/?class=计算机类" class="col-xs-6 col-sm-3 col-md-2 searcha">计算机类</a>
+		<a href="/search/?class=机械类" class="col-xs-6 col-sm-3 col-md-2 searcha">机械类</a>
+		<a href="/search/?class=外语类" class="col-xs-6 col-sm-3 col-md-2 searcha">外语类</a>
+		<a href="/search/?class=中文类" class="col-xs-6 col-sm-3 col-md-2 searcha">中文类</a>
+		<a href="/search/?class=建筑类" class="col-xs-6 col-sm-3 col-md-2 searcha">建筑类</a>
+		<a href="/search/?class=艺术类" class="col-xs-6 col-sm-3 col-md-2 searcha">艺术类</a>
+		<a href="/search/?class=物电类" class="col-xs-6 col-sm-3 col-md-2 searcha">物电类</a>
+		<a href="/search/?class=数学类" class="col-xs-6 col-sm-3 col-md-2 searcha">数学类</a>
+		<a href="/search/?class=材料类" class="col-xs-6 col-sm-3 col-md-2 searcha">材料类</a>
+		<a href="/search/?class=文旅类" class="col-xs-6 col-sm-3 col-md-2 searcha">文旅类</a>
+		<a href="/search/?class=生工类" class="col-xs-6 col-sm-3 col-md-2 searcha">生工类</a>
+	<div>
+</div>
 
 {% endblock %}

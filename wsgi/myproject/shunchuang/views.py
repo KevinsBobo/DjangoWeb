@@ -9,7 +9,9 @@ from shunchuang.kevins import ClassPage
 from shunchuang.kevins import Auction
 from shunchuang.kevins import My
 from shunchuang.kevins import Editinfo
-from shunchuang.kevins import Message
+from shunchuang.kevins import Reply
+from shunchuang.kevins import News
+from shunchuang.kevins import Crowd
 
 # Create your views here.
 
@@ -58,7 +60,17 @@ def editinfo(request):
     result = editinfo.editinfo(request)
     return result
 
-def message(request):
-    message = Message()
-    result = message.message(request)
+def reply(request):
+    reply = Reply()
+    result = reply.reply(request)
+    return result
+
+def news(request):
+    news = News()
+    result = news.news(request)
+    return result
+
+def crowd(request):
+    crowd = Crowd()
+    result = crowd.crowd(request)
     return result

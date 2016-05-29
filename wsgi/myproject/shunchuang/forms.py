@@ -5,7 +5,50 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from shunchuang.models import UserProfile
+from shunchuang.models import Message
+from shunchuang.models import News
+from shunchuang.models import Crowdfund
 import re
+
+class MessageForm(ModelForm):
+    class Meta:
+        model = Message
+        fields = ['title', 'message', 'username', 'name']
+        labels = {
+            'title'  : _(u'标题'),        
+            'message': _(u'内容'),        
+        }
+
+class ReplyForm(forms.Form):
+    id = forms.IntegerField(label='留言编号')
+    reply = forms.CharField(label='回复')
+    replyname = forms.CharField(label='回复者', max_length=20)
+    
+    def clean_id(self):
+        id = self.cleaned_data['id']
+        try:
+            Message.objects.get(id = id)
+        except ObjectDoesNotExist:
+            raise forms.ValidationError('该编号留言不存在')
+        return id
+
+class NewsForm(ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'url']
+        labels = {
+            'title'  : _(u'标题(必填)'),        
+            'message': _(u'内容(选填)'),        
+        }
+
+class CrowdForm(ModelForm):
+    class Meta:
+        model = Crowdfund
+        fields = ['title', 'url']
+        labels = {
+            'title'  : _(u'标题(必填)'),        
+            'message': _(u'内容(选填)'),        
+        }
 
 class EditinfoForm(ModelForm):
     class Meta:
@@ -80,7 +123,7 @@ class SignForm(forms.Form):
     passwordt = forms.CharField(label='确认密码', widget=forms.PasswordInput())
     phone     = forms.CharField(label='手机', max_length=11)
     email     = forms.EmailField(label='电子邮件')
-    select    = forms.ChoiceField(label='选择角色', choices=((1, '创业'),(2, '组队')), widget=forms.RadioSelect())
+    select    = forms.ChoiceField(label='选择角色', choices=(('创业', '创业'),('组队', '组队')), widget=forms.RadioSelect())
     
     def clean_username(self):
         username = self.cleaned_data['username']

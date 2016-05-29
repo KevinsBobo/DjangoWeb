@@ -1,0 +1,18 @@
+{% extends 'shunchuang/base.html' %}
+
+{% block title %}管理信息{% endblock %}
+
+{% block content %}
+
+<form method='post'>
+	{% csrf_token %}
+	{{ form }}
+	<input id="ndsubmit" type="submit" value="提交">
+</form>
+
+<ul>
+{% for value in news_crowd %}
+<li>标  题：{{value.title}}<a href="/{{pagefun}}/?delete={{value.id}}"> | 删除</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

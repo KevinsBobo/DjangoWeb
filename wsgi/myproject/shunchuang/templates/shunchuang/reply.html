@@ -1,0 +1,18 @@
+{% extends 'shunchuang/base.html' %}
+
+{% block title %}管理信息{% endblock %}
+
+{% block content %}
+
+<form method='post'>
+	{% csrf_token %}
+	{{ form }}
+	<input id="resubmit" type="submit" value="提交">
+</form>
+
+<ul>
+{% for value in message %}
+<li>编  号：{{value.id}} |  标  题：{{value.title}} |  回复：{{value.reply}}<a href="/reply/?delete={{value.id}}"> | 删除</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

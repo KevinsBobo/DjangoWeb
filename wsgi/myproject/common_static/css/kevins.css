@@ -1,3 +1,10 @@
+.clr{
+	width:0px;
+	height:0px;
+	overflow: auto;
+	clear:both;
+}
+
 .kenav>li {
 	width: 20%;
 	text-align: center;
@@ -59,12 +66,17 @@
 	font-size:12px;
 }
 
-#login>form>input, #login_login>form>input {
+#login>form>input, #login_login>form>input, #signform>form>input {
 	background-color: #fff;
 	border-radius: 5px;
     border: 1px solid #e3e2e1;
 	font-family: "Microsoft Yahei";
 	vertical-align: middle;
+	color:#333;
+}
+
+#login_login>form>input, #signform>form>input {
+	float: right;
 }
 
 #login>form>#id_phone, #login>form>#id_password {
@@ -79,19 +91,24 @@
 }
 
 #headsubmit {
-	padding: 0 15px;
+	background: rgba(0, 0, 0, 0) url("/static/img/btn1_24.png") no-repeat scroll 0 0;
+	width: 66px;
+	height: 24px;
 }
 
-#loginsubmit {
+#login_login>form>#loginsubmit {
 	display: block;
-	padding: 0 15px;
 	margin-left:70px;
+	float: none;
+	background: rgba(0, 0, 0, 0) url("/static/img/btn1_24.png") no-repeat scroll 0 0;
+	width: 66px;
+	height: 24px;
 }
 
-#id_phone {
+#login>form>#id_phone, #login_login>form>#id_phone {
 	padding: 0 5px;
 }
-#id_password {
+#login>form>#id_password, #login_login>form>#id_password {
 	padding: 0 5px;
 	background-image: url("/static/img/lock.png");
     background-position: 110px center;
@@ -114,15 +131,65 @@
 	margin: 100px auto 0px;
 }
 
-#login_login>form>label {
-	display: block;
-	float :left;
-	margin: 4px 7px 4px 0px;
+#signform>form{
+	position: relative;
+	width: 230px;
+	height: 300px;
+	margin-left: 30px;
 }
 
-#login_login>form>#id_phone, #login_login>form>#id_password {
+
+#signmainpc>#signform{
+	width: 360px;
+	background: #fff none repeat scroll 0 0;
+	border-radius: 4px;
+	float: left;
+	margin: 40px 0px 0px 100px;
+	position: relative;
+}
+
+#signtextimg{
+	float: right;
+	margin: 40px 100px 0px 0px;
+}
+
+#signmainmo>#signform{
+	width: 360px;
+	background: #fff none repeat scroll 0 0;
+	border-radius: 4px;
+	float: left;
+	margin: 30px auto 0;
+	position: relative;
+}
+
+#login_login>form>label, #signform>form>label{
+	display: block;
+	float :left;
+	margin: 5px 7px 12px 0px;
+	font-weight: normal;
+	font-family: "Microsoft Yahei";
+}
+
+#signform>form>ul>li{
+	list-style-type:none;
+}
+
+#signform>form>ul>li>label {
+	display: block;
+	float: right;
+	width: 52px;
+	margin: 0px 25px 12px 0px;
+	font-weight: normal;
+	font-family: "Microsoft Yahei";
+}
+
+#signform>form>ul>li>label>input[type=radio]{
+	margin-top:6px;
+}
+
+#login_login>form>#id_phone, #login_login>form>#id_password, #signform>form>#id_phone, #signform>form>#id_email, #signform>form>#id_username, #signform>form>#id_passwordo, #signform>form>#id_passwordt {
 	color: #8d8d8d;
-	display: inline-block;
+	display: block;
 	height: 22px;
 	line-height: 22px;
 	margin-right: 8px;
@@ -136,14 +203,33 @@
     background-position: 130px center;
 }
 
-#login_login>form>#id_phone{
+#login_login>form>#id_phone, #signform>form>#id_phone, #signform>form>#id_email, #signform>form>#id_username, #signform>form>#id_passwordo, #signform>form>#id_passwordt {
 	margin-bottom: 10px;
+}
+
+#signform>form>#signsubmit{
+	float:none;
+	background: rgba(0, 0, 0, 0) url("/static/img/btn_reg_24.png") no-repeat scroll -25px 0;
+	height: 41px;
+	margin: 0 0 0 30px;
+	width: 220px;
+}
+
+#signform>form>#signsubmit:hover{
+	background-position: -25px -57px;
+	background-color:#eb5858;
 }
 
 #login_login>form>ul.errorlist{
 	position: absolute;
 	left: 20px;
 	top: 70px;
+}
+
+#signform>form>ul.errorlist{
+	position: absolute;
+	left: 20px;
+	bottom: 5px;
 }
 
 #logintext {
@@ -153,4 +239,44 @@
 #headusername {
 	float: right;
 	margin: 20px 20px 0px 0px;
+}
+
+#signform>h2{
+	border-bottom: 1px solid #dedede;
+    color: #aaa;
+	font-size: 22px;
+	margin: 0 20px 10px;
+	padding: 30px 0 12px;
+	text-align: center;
+}
+
+#signmainpc{
+	background: #fefefe url("/static/img/background.jpg") no-repeat;
+	height: 454px;
+}
+
+#signmainmo{
+	background: #fefefe url("/static/img/background.jpg") no-repeat;
+	height: 454px;
+}
+
+#signlogin {
+	position: absolute;
+	right: 5px;
+	bottom: 5px;
+}
+
+#signbottomtext{
+	font-size: 18px;
+	font-family: "Microsoft Yahei";
+	line-height: 70px;
+	margin-bottom:50px;
+}
+
+.copyright {
+	color: #929292;
+	font-family: "Microsoft Yahei";
+	font-size: 12px;
+	padding: 0 0 0 25px;
+	text-align: center;
 }

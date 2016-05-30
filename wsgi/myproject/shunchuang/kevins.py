@@ -28,18 +28,26 @@ class Index():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        if not name:
+            return HttpResponseRedirect('/sign/')
+
         if request.method == 'POST':
             loginform = LoginForm(request.POST)
             result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/')
-        return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': loginform, 'user': name})
+        news = Newstab.objects.all()
+        crowdfund = Crowdfundtab.objects.all()
+        return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': loginform, 'user': name, 'news': news, 'crowdfund': crowdfund})
 
 class Search():
     def search(self, request):
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        if not name:
+            return HttpResponseRedirect('/sign/')
+
         if request.method == 'POST':
             loginform = LoginForm(request.POST)
             result = login.loginfun(request, loginform)
@@ -67,6 +75,9 @@ class ClassPage():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        if not name:
+            return HttpResponseRedirect('/sign/')
+
         username = request.user.username
         messageform = MessageForm(initial={'username':username, 'name':name})
         success = False
@@ -92,6 +103,9 @@ class Auction():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        if not name:
+            return HttpResponseRedirect('/sign/')
+
         if request.method == 'POST':
             loginform = LoginForm(request.POST)
             result = login.loginfun(request, loginform)
@@ -218,6 +232,9 @@ class My():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        if not name:
+            return HttpResponseRedirect('/login/')
+
         if request.method == 'POST':
             loginform = LoginForm(request.POST)
             result = login.loginfun(request, loginform)
@@ -232,8 +249,6 @@ class My():
                 return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo, 'backpage':True})
             except KeyError:
                 pass
-        if not name:
-            return HttpResponseRedirect('/login/')
         userinfo = self.getuserinfo(request.user.username, True)
         return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo})
 
@@ -288,10 +303,8 @@ class My():
         phone_show   = userinfo.phone_show
         email_show   = userinfo.email_show
         
-        if select == 1:
-            select = '创业'
-        else:
-            select = '组队'
+        city = 'XXX'
+        school = 'XXX'
         if not age:
             age = ''
         if not himself:

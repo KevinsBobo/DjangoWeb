@@ -4,11 +4,47 @@
 
 {% block content %}
 
-	    <form action="" method="post">
-			<input type="hidden" value="sign" name="form" />
-			{% csrf_token %}
-			{{ signform }}
-			<input id="singsubmit" type="submit" value="Sign up" />
-		</form>
+<div id="signmain">
+<div id="signmainmo" class="visible-xs-block">
+<div id="signform">
+	<h2>找合作伙伴，上顺创网！</h2>
+	<form action="" method="post">
+		<input type="hidden" value="sign" name="form" />
+		{% csrf_token %}
+		{{ signform }}
+		<div class="clr"></div>
+		<input id="signsubmit" type="submit" value="" />
+	</form>
+	<a href="/login/" class="forget" id="signlogin">已有帐号？点此登录</a>
+</div>
+</div>
+<div id="signmainpc" class="visible-sm-block visible-md-block visible-lg-block">
+<div id="signform">
+	<h2>找合作伙伴，上顺创网！</h2>
+	<form action="" method="post">
+		<input type="hidden" value="sign" name="form" />
+		{% csrf_token %}
+		{{ signform }}
+		<div class="clr"></div>
+		<input id="signsubmit" type="submit" value="" />
+	</form>
+	<a href="/login/" class="forget visible-sm-block" id="signlogin">已有帐号？点此登录</a>
+</div>
+<img src="/static/img/wenzikuang.png" id="signtextimg" class="visible-md-block visible-lg-block"/>
+</div>
+</div>
+
+<div class="container">
+	<div class="row" id="signbottomtext">
+		<div class="col-xs-12 col-sm-6">
+			<img style="width:80px;" src="/static/img/wen.png">
+			你想创业成功吗？
+		</div>
+		<div class="col-xs-12 col-sm-6">
+			<img style="width:80px;" src="/static/img/wen.png">
+			你想找到合适的合作伙伴吗？
+		</div>
+	</div>
+</div>
 
 {% endblock %}

@@ -4,5 +4,13 @@
 
 {% block content %}
 
+{% for value in news %}
+	{{ value.title }}
+{% endfor %}
+
+{% for value in crowdfund %}
+	{{value.title}}
+{% endfor %}
 
 {% endblock %}
+

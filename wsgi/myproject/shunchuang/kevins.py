@@ -36,8 +36,8 @@ class Index():
             result = login.loginfun(request, loginform)
             if result:
                 return HttpResponseRedirect('/')
-        news = Newstab.objects.all()
-        crowdfund = Crowdfundtab.objects.all()
+        news = Newstab.objects.all().order_by('-id')
+        crowdfund = Crowdfundtab.objects.all().order_by('-id')
         return render(request, 'shunchuang/index.html', {'active_index': 'active', 'form': loginform, 'user': name, 'news': news, 'crowdfund': crowdfund})
 
 class Search():
@@ -94,9 +94,11 @@ class ClassPage():
                 success = -1
                 if messageform.is_valid():
                     messageform.save()
+                    messageform = MessageForm(initial={'username':username, 'name':name})
                     success = 1
 
-        return render(request, 'shunchuang/class.html', {'active_class': 'active','messform': messageform, 'form': loginform, 'user': name, 'success':success})
+        message = Messagetab.objects.all().order_by('-id')
+        return render(request, 'shunchuang/class.html', {'active_class': 'active','messform': messageform, 'form': loginform, 'user': name, 'success':success, 'message':message})
 
 class Auction():
     def auction(self, request):
@@ -159,6 +161,7 @@ class Reply():
                     changemess.reply = replymess
                     changemess.replyname = replyname
                     changemess.save()
+                    replyform = ReplyForm()
                 except ObjectDoesNotExist:
                     pass
             
@@ -172,7 +175,7 @@ class Reply():
             except KeyError:
                 pass
 
-        message = Messagetab.objects.all() 
+        message = Messagetab.objects.all().order_by('-id') 
         return render(request, 'shunchuang/reply.html', {'form':replyform,'message':message, 'user': name})
 
 class News():
@@ -188,6 +191,7 @@ class News():
             newsform = NewsForm(request.POST)
             if newsform.is_valid():
                 newsform.save()
+                newsform = NewsForm()
 
         if request.method == 'GET':
             try:    
@@ -198,7 +202,7 @@ class News():
                     pass
             except KeyError:
                 pass
-        news_crowd = Newstab.objects.all() 
+        news_crowd = Newstab.objects.all().order_by('-id') 
         return render(request, 'shunchuang/news-crowd.html', {'form':newsform,'news_crowd':news_crowd,  'pagefun': 'news', 'user': name})
 
 class Crowd():
@@ -214,6 +218,7 @@ class Crowd():
             crowdform = CrowdForm(request.POST)
             if crowdform.is_valid():
                 crowdform.save()
+                crowdform = CrowdForm()
 
         if request.method == 'GET':
             try:    
@@ -224,7 +229,7 @@ class Crowd():
                     pass
             except KeyError:
                 pass
-        news_crowd = Crowdfundtab.objects.all() 
+        news_crowd = Crowdfundtab.objects.all().order_by('-id') 
         return render(request, 'shunchuang/news-crowd.html', {'form':crowdform,'news_crowd':news_crowd,  'pagefun': 'crowd', 'user': name})
 
 class My():
@@ -246,7 +251,7 @@ class My():
                 userinfo = self.getuserinfo(user, False)
                 if not userinfo:
                     return HttpResponse('用户不存在')
-                return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo, 'backpage':True})
+                return render(request, 'shunchuang/my.html', {'form': loginform, 'user': name, 'userinfo': userinfo, 'backpage':True})
             except KeyError:
                 pass
         userinfo = self.getuserinfo(request.user.username, True)

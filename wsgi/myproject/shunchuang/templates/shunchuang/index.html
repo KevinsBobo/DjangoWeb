@@ -3,14 +3,58 @@
 {% block title %}首页{% endblock %}
 
 {% block content %}
-
-{% for value in news %}
-	{{ value.title }}
-{% endfor %}
-
-{% for value in crowdfund %}
-	{{value.title}}
-{% endfor %}
+<div class="container">
+	<div class="row" id="indexfirst">
+		<div class="col-xs-12 col-sm-7 col-md-7" id="coarouseldiv">
+			<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<!-- 轮播（Carousel）指标 -->
+				<ol class="carousel-indicators">
+					<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+					<li data-target="#myCarousel" data-slide-to="1"></li>
+					<li data-target="#myCarousel" data-slide-to="2"></li>
+				</ol>
+				<!-- 轮播（Carousel）项目 -->
+				<div class="carousel-inner">
+					<div class="item active">
+						<img src="/static/img/xuanchuan1.jpg" alt="First slide">
+					</div>
+					<div class="item">
+						<img src="/static/img/xuanchuan2.jpg" alt="Second slide">
+					</div>
+					<div class="item">
+						<img src="/static/img/xuanchuan3.jpg" alt="Third slide">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-4 col-md-5">
+			<a href="/class/"><div id="indexxiaoketang">
+				<img src="/static/img/xiaoketang.jpg"/>
+			</div></a>
+		</div>      
+	</div>
+	 <div class="row" id="indexsec">
+		<div class="col-xs-12 col-sm-8 col-lg-10 newsdiv">
+			<div class="col-xs-12">资讯：</div>
+				{% for value in news %}
+				<a href="{{value.url}}" target="_blank" class="col-xs-12 col-md-6 zixuna">{{value.title}}</a>
+				{% endfor %}
+		</div>
+		<div class="col-xs-12 col-sm-3 col-lg-2">
+			<div id="bank">
+				<div id="banktitle">缺少资金看这里！</div>
+				<ul>
+					<li><a href="http://www.icbc.com.cn/ICBC/%E4%BC%81%E4%B8%9A%E4%B8%9A%E5%8A%A1/" target="_blank">工商银行</a></li>
+					<li><a href="http://scompany.ccb.com/cn/home/s_company_indexv3.html" target="_blank">建设银行</a></li>
+					<li><a href="http://www.cmbchina.com/corporate/" target="_blank">招商银行</a></li>
+					<li><a href="http://www.abchina.com/cn/sme/" target="_blank">农业银行</a></li>
+				</ul>
+			</div>
+		</div>      
+		<div class="col-xs-6 col-sm-4 col-md-2 zhaoxian"><a href="#"><img src="/static/img/zhaoxian.jpg"/>招贤纳士</a></div>
+		 <div class="col-xs-6 col-sm-8 col-md-10 zhaoxian"><a href="#"><img src="/static/img/zhaoxian.jpg"/>众筹公告</a></div>
+	 </div>
+</div>
 
 {% endblock %}
 

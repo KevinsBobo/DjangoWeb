@@ -17,6 +17,8 @@ class MessageForm(ModelForm):
         labels = {
             'title'  : _(u'标题'),        
             'message': _(u'内容'),        
+            'username': _(''),
+            'name': _(''),
         }
 
 class ReplyForm(forms.Form):

@@ -4,10 +4,12 @@
 
 {% block content %}
 
-<form method='get'>
-	<input type="text" name="name">
+<form method='get' id="searchform">
+	<input type="text" name="name" id="searchinput">
 	<input id="searchsubmit" type="submit" value="搜索">
 </form>
+
+<div class="clr"></div>
 
 {% if showuserinfo %}
 <div id="editinfoa"><a href="javascript:history.back(-1)">返回</a></div>
@@ -15,10 +17,12 @@
 	<div class="row">
 {% for value in userinfo %}
 <a href="/my/?user={{value.username}}" class="col-xs-4 col-sm-3 userinfoa">
-	姓  名：{{value.name}}<br/>
-	昵  称：{{value.username}}<br/>
-	角  色：{{value.select}}<br/>
-	专  业：{{value.school_class}}
+	<div class="userinfo">
+	{{value.name}}<br/>
+	{{value.username}}<br/>
+	{{value.select}}<br/>
+	{{value.school_class}}
+	</div>
 </a>
 {% endfor %}
 		<div class="clearfix"></div>
@@ -28,19 +32,20 @@
 
 <div class="container">
 	<div class="row">
-		<a href="/search/?class=管理类" class="col-xs-6 col-sm-3 col-md-2 searcha">管理类</a>
-		<a href="/search/?class=计算机类" class="col-xs-6 col-sm-3 col-md-2 searcha">计算机类</a>
-		<a href="/search/?class=机械类" class="col-xs-6 col-sm-3 col-md-2 searcha">机械类</a>
-		<a href="/search/?class=外语类" class="col-xs-6 col-sm-3 col-md-2 searcha">外语类</a>
-		<a href="/search/?class=中文类" class="col-xs-6 col-sm-3 col-md-2 searcha">中文类</a>
-		<a href="/search/?class=建筑类" class="col-xs-6 col-sm-3 col-md-2 searcha">建筑类</a>
-		<a href="/search/?class=艺术类" class="col-xs-6 col-sm-3 col-md-2 searcha">艺术类</a>
-		<a href="/search/?class=物电类" class="col-xs-6 col-sm-3 col-md-2 searcha">物电类</a>
-		<a href="/search/?class=数学类" class="col-xs-6 col-sm-3 col-md-2 searcha">数学类</a>
-		<a href="/search/?class=材料类" class="col-xs-6 col-sm-3 col-md-2 searcha">材料类</a>
-		<a href="/search/?class=文旅类" class="col-xs-6 col-sm-3 col-md-2 searcha">文旅类</a>
-		<a href="/search/?class=生工类" class="col-xs-6 col-sm-3 col-md-2 searcha">生工类</a>
+		<a href="/search/?class=管理类" class="col-xs-6 col-sm-3 searcha"><div id="searcha1">管理类</div></a>
+		<a href="/search/?class=计算机类" class="col-xs-6 col-sm-3 searcha"><div id="searcha2">计算机类</div></a>
+		<a href="/search/?class=机械类" class="col-xs-6 col-sm-3 searcha"><div id="searcha3">机械类</div></a>
+		<a href="/search/?class=外语类" class="col-xs-6 col-sm-3 searcha"><div id="searcha4">外语类</div></a>
+		<a href="/search/?class=中文类" class="col-xs-6 col-sm-3 searcha"><div id="searcha5">中文类</div></a>
+		<a href="/search/?class=建筑类" class="col-xs-6 col-sm-3 searcha"><div id="searcha6">建筑类</div></a>
+		<a href="/search/?class=艺术类" class="col-xs-6 col-sm-3 searcha"><div id="searcha7">艺术类</div></a>
+		<a href="/search/?class=物电类" class="col-xs-6 col-sm-3 searcha"><div id="searcha8">物电类</div></a>
+		<a href="/search/?class=数学类" class="col-xs-6 col-sm-3 searcha"><div id="searcha9">数学类</div></a>
+		<a href="/search/?class=材料类" class="col-xs-6 col-sm-3 searcha"><div id="searcha10">材料类</div></a>
+		<a href="/search/?class=文旅类" class="col-xs-6 col-sm-3 searcha"><div id="searcha11">文旅类</div></a>
+		<a href="/search/?class=生工类" class="col-xs-6 col-sm-3 searcha"><div id="searcha12">生工类</div></a>
 	<div>
+	<div class="clearfix"></div>
 </div>
 
 {% endblock %}

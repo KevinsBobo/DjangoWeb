@@ -386,7 +386,7 @@ class My():
 
 class Login():
     def manageuser(self):
-        manageuser = ['kevins','KevinsBobo']
+        manageuser = ['kevins','KevinsBobo','shunchuang']
         return manageuser
 
     def islogined(self, request):

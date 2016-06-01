@@ -429,7 +429,12 @@
 	max-width: 130px;
 	height: 120px;
 	border: 1px solid #e3a07c;
-	padding: 10px 5px 0;
+	padding: 10px 0px 0 10px;
+}
+
+.sea_portrait{
+	width: 60px;
+	margin-bottom: 5px;
 }
 
 .searcha{
@@ -502,7 +507,7 @@
 
 #messageform{
 	width: 340px;
-	margin: 10px auto 0;
+	margin: 50px auto 0;
 }
 
 #messageformtit{
@@ -557,4 +562,89 @@
 	font-size: 12px;
 	text-align: center;
 	margin-top: 7px;
+}
+
+.blackborder{
+	width: 90%;
+	margin: 10px 0px 10px 10px;
+}
+
+.messagerow{
+	font-size: 14px;
+	margin-top: 20px;
+}
+
+.messagetitle{
+	color: #135020;
+	padding-left: 30px;
+}
+
+.messagetext{
+	padding-left: 40px;
+}
+
+.replyname{
+	color: #442d05;
+	padding-left: 30px;
+}
+
+.replytext{
+	padding-left: 40px;
+	color: #8e1212;
+}
+
+.replytop{
+	color: #509b07;
+}
+
+/* 拍卖会 */
+
+.daojishi{
+	font-size:22px;
+	line-height: 50px;
+	text-align: center;
+	color: black;
+	padding-top: 20px;
+}
+
+#daojishinum{
+	font-size: 36px;
+	color: red;
+}
+
+/* editinfopage */
+
+.editimg{
+	width: 80px;
+}
+
+#editinfo{
+	margin-left: 20px;
+}
+
+#editphoto{
+	margin-left: 20px;
+}
+
+#uploadphoto{
+	margin-left: 20px;
+}
+
+#editinfo>form>label{
+	display: block;
+}
+
+#editinfo>form>input{
+	display: block;
+}
+
+.editinfosubmit{
+	margin: 15px 0px 15px 50px;
+}
+
+/* mypage */
+
+.my_portrait{
+	width: 100px;
+	margin: 10px 0px 10px 20px;
 }

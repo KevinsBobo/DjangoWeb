@@ -10,10 +10,66 @@
 <div id="editinfoa"><a href="/editinfo/">编辑</a></div>
 {% endif %}
 
+<div class="container">
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="userportrait">
+	{% if userinfotab.head_portrait %}
+	<img src="{{userinfotab.head_portrait.url}}" class="my_portrait"/>
+	{% else %}
+		{% if value.sex == "女" %}
+		<img src="/static/img/portraitwoman.png" class="my_portrait"/>
+		{% else %}
+		<img src="/static/img/portraitman.png" class="my_portrait"/>
+		{% endif %}
+	{% endif %}
+</div>
 <ul>
 {% for key, value in userinfo.items %}
 	<li>{{ key }}: {{value}}</li>
 {% endfor %}
 </ul>
-
+</div>
+<div class="col-xs-12 col-sm-2"></div>
+<div class="col-xs-12 col-sm-6 col-md-7">
+{% if userinfotab.person_photo1 %}
+<div class="carousel slide" id="myCarousel" data-ride="carousel" >
+	<div class="carousel-inner">
+		{% if userinfotab.person_photo1 %}
+			<div class="item active">
+				<img src="{{userinfotab.person_photo1.url}}" alt="First slid"/>
+		   </div>                                                       
+		{% endif %}                                                     
+                                                                        
+		{% if userinfotab.person_photo2 %}                              
+			<div class="item">                                   
+				<img src="{{userinfotab.person_photo2.url}}" alt="Second slid"/>
+		   </div>                                                       
+		{% endif %}                                                     
+                                                                        
+		{% if userinfotab.person_photo3 %}                              
+			<div class="item">                                   
+				<img src="{{userinfotab.person_photo3.url}}" alt="Third slid"/>
+		   </div>                                                       
+		{% endif %}                                                     
+                                                                        
+		{% if userinfotab.person_photo4 %}                              
+			<div class="item">                                   
+				<img src="{{userinfotab.person_photo4.url}}" alt="Fourth slid"/>
+		   </div>                                                       
+		{% endif %}                                                     
+                                                                        
+		{% if userinfotab.person_photo5 %}                              
+			<div class="item">                                   
+				<img src="{{userinfotab.person_photo5.url}}" alt="Fiveth slid"/>
+		   </div>
+		{% endif %}
+	</div>
+	<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+	<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div>
+{% endif %}
+</div>
+</div>
+</div>
 {% endblock %}

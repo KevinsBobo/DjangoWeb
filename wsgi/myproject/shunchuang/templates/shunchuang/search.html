@@ -18,10 +18,17 @@
 {% for value in userinfo %}
 <a href="/my/?user={{value.username}}" class="col-xs-4 col-sm-3 userinfoa">
 	<div class="userinfo">
-	{{value.name}}<br/>
-	{{value.username}}<br/>
-	{{value.select}}<br/>
-	{{value.school_class}}
+	{% if value.head_portrait %}
+	<img src="{{value.head_portrait.url}}" class="sea_portrait"/>
+	{% else %}
+		{% if value.sex == "女" %}
+		<img src="/static/img/portraitwoman.png" class="sea_portrait"/>
+		{% else %}
+		<img src="/static/img/portraitman.png" class="sea_portrait"/>
+		{% endif %}
+	{% endif %}
+	<br/>{{value.name}}<br/>
+	{{value.username}}
 	</div>
 </a>
 {% endfor %}

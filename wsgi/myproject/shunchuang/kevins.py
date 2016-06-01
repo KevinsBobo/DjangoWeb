@@ -21,6 +21,7 @@ from shunchuang.forms  import MessageForm
 from shunchuang.forms  import ReplyForm
 from shunchuang.forms  import NewsForm
 from shunchuang.forms  import CrowdForm
+from shunchuang.forms  import PhotoForm
 
 
 class Index():
@@ -118,28 +119,80 @@ class Auction():
 class Editinfo():
     def editinfo(self, request):
         login = Login()
-        my    = My()
         name = login.islogined(request)
         if not name:
             return HttpResponseRedirect('/login/')
 
+        if request.method == 'GET':
+            try:    
+                deling = request.GET['delete']
+                userprofile = UserProfile.objects.get(username=request.user.username)
+                if deling == "head_portrait":
+                    userprofile.head_portrait=None
+                if deling == "person_photo1":
+                    userprofile.person_photo1=None
+                if deling == "person_photo2":
+                    userprofile.person_photo2=None
+                if deling == "person_photo3":
+                    userprofile.person_photo3=None
+                if deling == "person_photo4":
+                    userprofile.person_photo4=None
+                if deling == "person_photo5":
+                    userprofile.person_photo5=None
+                userprofile.save()
+            except KeyError:
+                pass
+
+        my = My()
         userinfotab = my.getuserinfotab(request.user.username)
         editinfoform = EditinfoForm(initial=userinfotab)
+        photoform = PhotoForm()
 
         if request.method == 'POST':
-            editinfoform = EditinfoForm(request.POST)
-            if editinfoform.is_valid():
-                username = editinfoform.cleaned_data['username']
-                if username != request.user.username:
-                    return HttpResponse('request not right')
-                UserProfile.objects.filter(username__iexact=username).delete()
-                editinfoform.save()
-                userinfo = my.getuserinfo(request.user.username, True)
-                return HttpResponseRedirect('/my/')
-            else:
-                return render(request, 'shunchuang/editinfo.html', {'active_my': 'active', 'user': name, 'userinfo': userinfo, 'editinfoform': editinfoform})
+            formdo = request.POST['form']
+            if formdo == "editinfo":
+                editinfoform = EditinfoForm(request.POST)
+                if editinfoform.is_valid():
+                    username = editinfoform.cleaned_data['username']
+                    if username != request.user.username:
+                        return HttpResponse('request not right')
+                    UserProfile.objects.filter(username__iexact=username).delete()
+                    editinfoform.save()
+                    userinfo = my.getuserinfo(request.user.username, True)
+                    return HttpResponseRedirect('/my/')
+                else:
+                    return render(request, 'shunchuang/editinfo.html', {'active_my': 'active', 'user': name, 'userinfo': userinfo, 'editinfoform': editinfoform, 'photoform': photoform})
+            elif formdo == "photo":
+                userprofile = UserProfile.objects.get(username=request.user.username)
+                if 'head_portrait' in request.FILES:
+                    head_portrait = request.FILES['head_portrait']
+                    userprofile.head_portrait=head_portrait
 
-        return render(request, 'shunchuang/editinfo.html', {'active_my': 'active', 'user': name, 'editinfoform': editinfoform})
+                if 'person_photo1' in request.FILES:
+                    person_photo1 = request.FILES['person_photo1']
+                    userprofile.person_photo1=person_photo1
+
+                if 'person_photo2' in request.FILES:
+                    person_photo2 = request.FILES['person_photo2']
+                    userprofile.person_photo2=person_photo2
+
+                if 'person_photo3' in request.FILES:
+                    person_photo3 = request.FILES['person_photo3']
+                    userprofile.person_photo3=person_photo3
+
+                if 'person_photo4' in request.FILES:
+                    person_photo4 = request.FILES['person_photo4']
+                    userprofile.person_photo4=person_photo4
+
+                if 'person_photo5' in request.FILES:
+                    person_photo5 = request.FILES['person_photo5']
+                    userprofile.person_photo5=person_photo5
+
+                userprofile.save()
+                photoform = PhotoForm()
+                userinfotab = my.getuserinfotab(request.user.username)
+
+        return render(request, 'shunchuang/editinfo.html', {'active_my': 'active', 'user': name, 'editinfoform': editinfoform, 'photoform': photoform, 'userinfotab': userinfotab})
 
 class Reply():
     def reply(self, request):
@@ -237,6 +290,7 @@ class My():
         login = Login()
         loginform = LoginForm()
         name = login.islogined(request)
+        userinfotab = self.getuserinfotab(request.user.username)
         if not name:
             return HttpResponseRedirect('/login/')
 
@@ -251,11 +305,11 @@ class My():
                 userinfo = self.getuserinfo(user, False)
                 if not userinfo:
                     return HttpResponse('用户不存在')
-                return render(request, 'shunchuang/my.html', {'form': loginform, 'user': name, 'userinfo': userinfo, 'backpage':True})
+                return render(request, 'shunchuang/my.html', {'form': loginform, 'user': name, 'userinfo': userinfo,'userinfotab': userinfotab, 'backpage':True})
             except KeyError:
                 pass
         userinfo = self.getuserinfo(request.user.username, True)
-        return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo})
+        return render(request, 'shunchuang/my.html', {'active_my': 'active', 'form': loginform, 'user': name, 'userinfo': userinfo, 'userinfotab': userinfotab})
 
     def getuserinfotab(self, username):
         try:
@@ -275,14 +329,19 @@ class My():
         school       = userinfo.school
         school_class = userinfo.school_class
         which_class  = userinfo.which_class
-        person_photo = userinfo.person_photo
         select = userinfo.select
         phone_show   = userinfo.phone_show
         email_show   = userinfo.email_show
+        head_portrait = userinfo.head_portrait
+        person_photo1 = userinfo.person_photo1
+        person_photo2 = userinfo.person_photo2
+        person_photo3 = userinfo.person_photo3
+        person_photo4 = userinfo.person_photo4
+        person_photo5 = userinfo.person_photo5
         if not age:
             age = ''
 
-        returnuserinfo = {'username':username, 'name':name, 'phone':phone, 'email':email, 'sex':sex, 'age':age, 'motto':motto, 'find':find, 'hibby':hibby, 'city':city, 'school':school, 'school_class':school_class, 'which_class':which_class, 'person_photo':person_photo, 'select':select, 'phone_show':phone_show, 'email_show':email_show}
+        returnuserinfo = {'username':username, 'name':name, 'phone':phone, 'email':email, 'sex':sex, 'age':age, 'motto':motto, 'find':find, 'hibby':hibby, 'city':city, 'school':school, 'school_class':school_class, 'which_class':which_class, 'select':select, 'phone_show':phone_show, 'email_show':email_show, 'person_photo1':person_photo1, 'person_photo2':person_photo2, 'person_photo3':person_photo3, 'person_photo4':person_photo4, 'person_photo5':person_photo5,'head_portrait':head_portrait}
         
         return returnuserinfo
 
@@ -303,7 +362,6 @@ class My():
         school       = userinfo.school
         school_class = userinfo.school_class
         which_class  = userinfo.which_class
-        person_photo = userinfo.person_photo
         select = userinfo.select
         phone_show   = userinfo.phone_show
         email_show   = userinfo.email_show
@@ -322,7 +380,7 @@ class My():
             if not email_show:
                 email = '保密'
 
-        items =(('姓名',name), ('性别',sex), ('年龄',age), ('手机号',phone), ('邮箱',email), ('角色',select), ('寻找的队友',find), ('座右铭',motto), ('特长/爱好',hibby), ('城市',city), ('学校',school), ('专业',school_class), ('专业类别',which_class), ('个人相册',person_photo))
+        items =(('姓名',name), ('性别',sex), ('年龄',age), ('手机号',phone), ('邮箱',email), ('角色',select), ('寻找的队友',find), ('座右铭',motto), ('特长/爱好',hibby), ('城市',city), ('学校',school), ('专业',school_class), ('专业类别',which_class))
         returnuserinfo = OrderedDict(items) 
         return returnuserinfo
 

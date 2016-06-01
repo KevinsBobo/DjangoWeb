@@ -52,11 +52,19 @@ class CrowdForm(ModelForm):
             'message': _(u'内容(选填)'),        
         }
 
+class PhotoForm(forms.Form):
+    head_portrait = forms.ImageField(label='头像', required=False)
+    person_photo1 = forms.ImageField(label='个人相册-照片1', required=False)
+    person_photo2 = forms.ImageField(label='个人相册-照片2', required=False)
+    person_photo3 = forms.ImageField(label='个人相册-照片3', required=False)
+    person_photo4 = forms.ImageField(label='个人相册-照片4', required=False)
+    person_photo5 = forms.ImageField(label='个人相册-照片5', required=False)
+
 class EditinfoForm(ModelForm):
     class Meta:
         model = UserProfile
         fields = '__all__'
-        exclude = ['user_class']
+        exclude = ['user_class', 'head_portrait', 'person_photo1', 'person_photo2', 'person_photo3', 'person_photo4', 'person_photo5']
         labels = {
             'name'   : _(u'姓名'),
             'sex'    : _(u'性别'),

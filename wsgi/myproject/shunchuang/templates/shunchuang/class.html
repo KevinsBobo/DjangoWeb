@@ -4,11 +4,35 @@
 
 {% block content %}
 
-<ul>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-md-6 col-lg-5"><img src="/static/img/blackborder.gif" class="blackborder"/></div>
+	</div>
 	{% for value in message %}
-	<li>{{value.title}}</li>
+	<div class="row messagerow">
+		<div class="col-xs-12 col-md-6 messagemaincol">
+			<div class="col-xs-12 messageuser"><a href="/my/?user={{value.username}}">{{value.name}}：</a></div>
+			<div class="col-xs-12 messagetitle">{{value.title}}</div>
+			<div class="col-xs-12 messagetext">{{value.message}}</div>
+		</div>
+		<div class="col-xs-12 col-md-6 replymaincol">
+			<div class="col-xs-12 replytop">
+				{% if value.replyname %}
+				导师回复：
+				{% endif %}
+			</div>
+			<div class="col-xs-12 replyname">
+				{% if value.replyname %}
+				{{value.replyname}}：
+				{% endif %}
+			</div>
+			<div class="col-xs-12 replytext">{{value.reply}}</div>
+		</div>
+	</div>
 	{% endfor %}
-</ul>
+	
+</div>
+
 <div id="messageform">
 	<div id="messageformtit">我也要留言</div>
 <form method='post'>

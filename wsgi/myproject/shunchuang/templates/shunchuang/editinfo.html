@@ -4,13 +4,55 @@
 
 {% block content %}
 
-<div id="editinfoa"><a href="javascript:history.back(-1)">返回</a></div>
+<div id="editinfoa"><a href="/my/">返回</a></div>
 <div id="editinfo">
 	<form method='post'>
-		<input type="hidden" value="login" name="form">
+		<input type="hidden" value="editinfo" name="form">
 		{% csrf_token %}
 		{{ editinfoform }}
-		<input id="editinfosubmit" type="submit" value="提交">
+		<input class="editinfosubmit" type="submit" value="提交">
+	</form>
+</div>
+
+<div id="editphoto">
+	{% if userinfotab.head_portrait %}
+	<img src="{{userinfotab.head_portrait.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=head_portrait" class="editimgdel">删除</a>
+	{% endif %}
+
+	{% if userinfotab.person_photo1 %}
+	<img src="{{userinfotab.person_photo1.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=person_photo1" class="editimgdel">删除</a>
+	{% endif %}
+
+	{% if userinfotab.person_photo2 %}
+	<img src="{{userinfotab.person_photo2.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=person_photo2" class="editimgdel">删除</a>
+	{% endif %}
+
+	{% if userinfotab.person_photo3 %}
+	<img src="{{userinfotab.person_photo3.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=person_photo3" class="editimgdel">删除</a>
+	{% endif %}
+
+	{% if userinfotab.person_photo4 %}
+	<img src="{{userinfotab.person_photo4.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=person_photo4" class="editimgdel">删除</a>
+	{% endif %}
+
+	{% if userinfotab.person_photo5 %}
+	<img src="{{userinfotab.person_photo5.url}}" class="editimg"/>
+	<a href="/editinfo/?delete=person_photo5" class="editimgdel">删除</a>
+	{% endif %}
+
+</div>
+
+<div id="uploadphoto">
+	<form method='post' enctype="multipart/form-data">
+		<input type="hidden" value="photo" name="form">
+		{% csrf_token %}
+		{{ photoform }}
+		<input class="editinfosubmit" type="submit" value="上传">
 	</form>
 </div>
 

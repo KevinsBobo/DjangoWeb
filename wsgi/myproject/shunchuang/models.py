@@ -29,7 +29,7 @@ class UserProfile(models.Model):
 
     username=models.CharField(max_length=20,blank=False) 
     name   = models.CharField(max_length=10,blank=True)
-    sex  = models.CharField(max_length=4,blank=True)
+    sex  = models.CharField(max_length=4,blank=True, choices=((u'男', u'男'), (u'女', u'女')))
     age    = models.IntegerField(null=True,blank=True)
     phone  = models.CharField(max_length=11,blank=False)
     phone_show = models.BooleanField(default=False,blank=False)
@@ -43,7 +43,12 @@ class UserProfile(models.Model):
     school = models.CharField(max_length=20,blank=True)
     school_class = models.CharField(max_length=20,blank=True)
     which_class  = models.CharField(max_length=20,blank=True, choices=WHICH_CLASS)
-    person_photo = models.IntegerField(default=0,blank=False)
+    head_portrait = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
+    person_photo1 = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
+    person_photo2 = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
+    person_photo3 = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
+    person_photo4 = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
+    person_photo5 = models.ImageField(upload_to='photos/%Y/%m', blank=True,null=True)
     user_class   = models.IntegerField(default=1,blank=False)
 
     def __unicode__(self):

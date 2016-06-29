@@ -297,6 +297,7 @@ class My():
         if request.method == 'POST':
             loginform = LoginForm(request.POST)
             result = login.loginfun(request, loginform)
+            userinfotab = self.getuserinfotab(user)
             if result:
                 return HttpResponseRedirect('/my/')
         if request.method == 'GET':

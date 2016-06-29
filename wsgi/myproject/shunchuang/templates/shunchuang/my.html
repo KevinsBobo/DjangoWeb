@@ -17,7 +17,7 @@
 	{% if userinfotab.head_portrait %}
 	<img src="{{userinfotab.head_portrait.url}}" class="my_portrait"/>
 	{% else %}
-		{% if value.sex == "女" %}
+		{% if userinfotab.sex == "女" %}
 		<img src="/static/img/portraitwoman.png" class="my_portrait"/>
 		{% else %}
 		<img src="/static/img/portraitman.png" class="my_portrait"/>
